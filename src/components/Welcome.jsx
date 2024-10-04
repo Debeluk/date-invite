@@ -5,6 +5,8 @@ import flowerCorner from '../photos/flower-corner.jpg'; // Импорт изоб
 export const WelcomeWindow = () => {
   const [showHearts, setShowHearts] = useState([]);
   const [hovering, setHovering] = useState(false);
+  const [email, setEmail] = useState(''); // State for email input
+  const [emailError, setEmailError] = useState(''); // State for email error message
   const buttonRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -14,6 +16,22 @@ export const WelcomeWindow = () => {
   const handleMouseLeave = () => {
     setHovering(false);
     setShowHearts([]); // Очистка сердец при выходе мыши с кнопки
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError(''); // Reset the error message on email change
+  };
+
+  const handleButtonClick = () => {
+    // Validate email format on button click
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setEmailError('Invalid email');
+    } else {
+      setEmailError('');
+      // Proceed with further actions here if needed
+    }
   };
 
   useEffect(() => {
@@ -114,13 +132,33 @@ export const WelcomeWindow = () => {
         }}
       />
 
-      <h3>Date Creator</h3>
-      <p>Create a perfect date!</p>
+      <h3>Template Creator</h3>
+      <p>Create a perfect template!</p>
+
+      {/* Email Input */}
+      <div style={{ marginBottom: '5px' }}>
+        <input
+          type="email"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="Enter your email"
+          style={{
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '380px', // Match button width
+            fontSize: '16px',
+          }}
+        />
+        {emailError && <p style={{ color: 'red', fontSize: '14px', margin: '5px 0 0' }}>{emailError}</p>}
+      </div>
+
       <div style={{ position: 'relative', display: 'inline-block' }}>
-        <button
+        <motion.button
           ref={buttonRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onClick={handleButtonClick} // Handle click event
           style={{
             width: '400px',
             padding: '15px 20px',
@@ -130,13 +168,14 @@ export const WelcomeWindow = () => {
             cursor: 'pointer',
             backgroundColor: '#ffffff',
             color: '#000000',
-            boxShadow: '0 6px 10px rgba(0, 0, 0, 0.1)',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)', // Increase shadow for more depth
+            transition: 'transform 0.1s ease, box-shadow 0.1s ease', // Faster transition for the animation
             transform: hovering ? 'scale(1.05)' : 'scale(1)',
           }}
+          whileTap={{ scale: 0.95 }} // Subtle scale down on tap
         >
-          Google Authorization
-        </button>
+          Begin
+        </motion.button>
 
         {showHearts.map((heart) => (
           <motion.div
