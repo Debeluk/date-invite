@@ -4,6 +4,7 @@
   height: 45px; /* Высота сердца */
   margin: 0 auto; /* Центрируем сердце */
   background: transparent; /* Начальный цвет сердца */
+  animation: slideIn 0.5s forwards, slideOut 0.5s 2.5s forwards; /* Анимация появления и исчезновения */
 }
 
 #heart::before,
@@ -33,4 +34,28 @@
 .fill::before,
 .fill::after {
   background: pink; /* Цвет заполнения */
+}
+
+/* Анимация появления */
+@keyframes slideIn {
+  from {
+    transform: translateY(100%); /* Начальная позиция снизу */
+    opacity: 0; /* Начальная прозрачность */
+  }
+  to {
+    transform: translateY(0); /* Конечная позиция */
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
+
+/* Анимация исчезновения */
+@keyframes slideOut {
+  from {
+    transform: translateY(0); /* Начальная позиция */
+    opacity: 1; /* Начальная прозрачность */
+  }
+  to {
+    transform: translateY(-100%); /* Конечная позиция вверх */
+    opacity: 0; /* Конечная прозрачность */
+  }
 }

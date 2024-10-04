@@ -34,13 +34,25 @@ export const WelcomeWindow = () => {
       setEmailError('Invalid email');
     } else {
       setEmailError('');
-      setIsContentVisible(false); // Hide content after valid email
       setIsLoading(true); // Start loading animation
+
+      // Start filling animation
+      if (heartRef.current) {
+        heartRef.current.classList.add('fill');
+      }
 
       // Simulate loading for 3 seconds
       setTimeout(() => {
-        setIsLoading(false); // Stop loading after 3 seconds
+        if (heartRef.current) {
+          heartRef.current.classList.remove('fill'); // Remove fill class
+        }
         console.log('Stored Email:', email); // Replace this with your desired action
+
+        // Теперь показываем сообщение после анимации
+        setTimeout(() => {
+          setIsLoading(false); // Stop loading
+          setIsContentVisible(false); // Скрыть ввод email
+        }, 300); // Задержка перед показом сообщения
       }, 3000);
     }
   };
@@ -145,10 +157,12 @@ export const WelcomeWindow = () => {
 
       {isLoading ? ( // Show loading animation during the fake loading period
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <div id="heart" ref={heartRef} className="loading-heart fill"></div>
-          {/* Add 'fill' class for filling effect */}
+          <div id="heart" ref={heartRef} className="loading-heart"></div>
+          {/* Heart element */}
         </div>
-      ) : isContentVisible ? ( // Conditional rendering based on content visibility
+      ) : !isContentVisible ? ( // Conditional rendering based on content visibility
+        <h6>Choose your perfect date!</h6> // Updated message
+      ) : (
         <>
           <h3>Template Creator</h3>
           <p>Create a perfect template!</p>
@@ -220,8 +234,6 @@ export const WelcomeWindow = () => {
             ))}
           </div>
         </>
-      ) : (
-        <h3 style={{ color: '#4caf50' }}>Email {email} has been saved!</h3> // Message after saving email
       )}
     </motion.div>
   );
