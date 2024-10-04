@@ -1,0 +1,36 @@
+#heart {
+  position: relative;
+  width: 50px; /* Ширина сердца */
+  height: 45px; /* Высота сердца */
+  margin: 0 auto; /* Центрируем сердце */
+  background: transparent; /* Начальный цвет сердца */
+}
+
+#heart::before,
+#heart::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 26px; /* Ширина верхней части сердца */
+  height: 40px; /* Высота верхней части сердца */
+  border-radius: 25px 25px 0 0;
+  background: pink; /* Исходный цвет */
+  transition: background 0.5s; /* Плавный переход цвета */
+}
+
+#heart::before {
+  left: 25px; /* Сдвиг влево */
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+#heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.fill::before,
+.fill::after {
+  background: pink; /* Цвет заполнения */
+}
