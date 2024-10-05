@@ -1,7 +1,18 @@
+import { useState } from 'react'; // Import useState
 import { WelcomeWindow } from './Welcome';
-import heartsBG from '../photos/hearts.webp'; // Импорт изображения из папки photos
+import { NewPage } from './NewPage'; // Import the new page
+import heartsBG from '../photos/hearts.webp'; // Import the background image
 
 export const App = () => {
+  const [showWelcome, setShowWelcome] = useState(true); // State to control which component to show
+
+  // Function to handle showing the new page after 3 seconds
+  const handleShowNewPage = () => {
+    setTimeout(() => {
+      setShowWelcome(false); // Hide the WelcomeWindow
+    }, 3000); // Wait for 3 seconds
+  };
+
   return (
     <div
       style={{
@@ -11,13 +22,17 @@ export const App = () => {
         alignItems: 'center',
         fontSize: 40,
         color: '#010101',
-        backgroundImage: `url(${heartsBG})`, // Используем импортированное изображение
-        backgroundSize: '33%', // Размер изображения — 50%, чтобы поместилось 4 раза
+        backgroundImage: `url(${heartsBG})`, // Use the imported background image
+        backgroundSize: '33%', // Size of the image
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat', // Повтор изображения по обоим направлениям
+        backgroundRepeat: 'repeat', // Repeat the image
       }}
     >
-      <WelcomeWindow />
+      {showWelcome ? (
+        <WelcomeWindow onHide={handleShowNewPage} /> // Pass the function to WelcomeWindow
+      ) : (
+        <NewPage /> // Show the new page
+      )}
     </div>
   );
 };

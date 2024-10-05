@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Loading.css';
 
-export const WelcomeWindow = () => {
+export const WelcomeWindow = (props) => { // Add props as a parameter
   const [showHearts, setShowHearts] = useState([]);
   const [hovering, setHovering] = useState(false);
   const [email, setEmail] = useState('');
@@ -62,6 +62,7 @@ export const WelcomeWindow = () => {
     setTimeout(() => {
       // Trigger the exit animation
       setIsContentVisible(false);
+      props.onHide(); // Call the onHide function to notify App component
     }, 600); // Wait for the animation duration
   };
 
