@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import flowerCorner from '../photos/flower-corner.jpg';
+import flowerLine from '../photos/flowerline.png'; // Import the flowerline image
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Loading.css';
@@ -120,6 +121,9 @@ export const WelcomeWindow = () => {
         boxShadow: '0 30px 60px rgba(0, 0, 0, 0.3)',
         border: '1px solid #000000',
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column', // Stack children vertically
+        alignItems: 'center', // Center items horizontally
       }}
     >
       {/* Corner images */}
@@ -156,19 +160,42 @@ export const WelcomeWindow = () => {
         </div>
       ) : !isContentVisible ? (
         <>
-          <h6 style={{ margin: '32px 0' }}>Choose your perfect date!</h6>
+          <h6 style={{ margin: '32px 0' }}>Choose your perfect date!</h6> {/* Set margin to 16px */}
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             customInput={<CustomInput />} // Use the custom input
           />
+          <img src={flowerLine} alt="Flower Line"
+               style={{ margin: '32px 0 16px 0', width: '50%' }} /> {/* Resize image to 50% of original size */}
+          <motion.button
+            onClick={() => console.log('Second button clicked!')} // Handle the new button click
+            style={{
+              width: '400px',
+              padding: '15px 20px',
+              fontSize: '18px',
+              borderRadius: '10px',
+              border: '2px solid #000000',
+              cursor: 'pointer',
+              backgroundColor: '#ffffff',
+              color: '#000000',
+              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
+              transition: 'transform 0.1s ease, box-shadow 0.1s ease',
+              marginTop: '20px', // Add margin for spacing
+              marginBottom: '0', // Remove top margin from the button
+            }}
+            whileHover={{ scale: 1.05 }} // Slightly increase size on hover
+            whileTap={{ scale: 0.95 }} // Slightly decrease size on tap
+          >
+            Second Button
+          </motion.button>
         </>
       ) : (
         <>
-          <h3>Template Creator</h3>
-          <p>Create a perfect template!</p>
+          <h3 style={{ margin: '16px 0' }}>Template Creator</h3> {/* Set margin to 16px */}
+          <p style={{ margin: '16px 0' }}>Create a perfect template!</p> {/* Set margin to 16px */}
 
-          <div style={{ marginBottom: '5px' }}>
+          <div style={{ margin: '16px 0 32px 0' }}>
             <input
               type="email"
               value={email}
