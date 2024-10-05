@@ -14,6 +14,7 @@ export const WelcomeWindow = () => {
   const [isContentVisible, setIsContentVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false); // New state for animation
   const buttonRef = useRef(null);
   const heartRef = useRef(null);
 
@@ -54,6 +55,14 @@ export const WelcomeWindow = () => {
         }, 300);
       }, 3000);
     }
+  };
+
+  const handleSecondButtonClick = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      // Trigger the exit animation
+      setIsContentVisible(false);
+    }, 600); // Wait for the animation duration
   };
 
   useEffect(() => {
@@ -109,8 +118,11 @@ export const WelcomeWindow = () => {
   return (
     <motion.div
       initial={{ y: '100vh', opacity: 1 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      animate={{
+        y: isAnimating ? [0, 10, -800] : 0, // Animation for exit
+        opacity: isAnimating ? [1, 1, 0] : 1,
+      }}
+      transition={{ duration: isAnimating ? 0.6 : 0.5 }} // Adjust duration based on animation state
       style={{
         backgroundColor: '#ffffff',
         padding: '20px',
@@ -160,16 +172,15 @@ export const WelcomeWindow = () => {
         </div>
       ) : !isContentVisible ? (
         <>
-          <h6 style={{ margin: '32px 0' }}>Choose your perfect date!</h6> {/* Set margin to 16px */}
+          <h6 style={{ margin: '32px 0' }}>Choose your perfect date!</h6>
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             customInput={<CustomInput />} // Use the custom input
           />
-          <img src={flowerLine} alt="Flower Line"
-               style={{ margin: '32px 0 16px 0', width: '50%' }} /> {/* Resize image to 50% of original size */}
+          <img src={flowerLine} alt="Flower Line" style={{ margin: '32px 0 16px 0', width: '50%' }} />
           <motion.button
-            onClick={() => console.log('Second button clicked!')} // Handle the new button click
+            onClick={handleSecondButtonClick} // Trigger the animation on click
             style={{
               width: '400px',
               padding: '15px 20px',
@@ -181,8 +192,8 @@ export const WelcomeWindow = () => {
               color: '#000000',
               boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
               transition: 'transform 0.1s ease, box-shadow 0.1s ease',
-              marginTop: '20px', // Add margin for spacing
-              marginBottom: '0', // Remove top margin from the button
+              marginTop: '20px',
+              marginBottom: '0',
             }}
             whileHover={{ scale: 1.05 }} // Slightly increase size on hover
             whileTap={{ scale: 0.95 }} // Slightly decrease size on tap
@@ -192,8 +203,8 @@ export const WelcomeWindow = () => {
         </>
       ) : (
         <>
-          <h3 style={{ margin: '16px 0' }}>Template Creator</h3> {/* Set margin to 16px */}
-          <p style={{ margin: '16px 0' }}>Create a perfect template!</p> {/* Set margin to 16px */}
+          <h3 style={{ margin: '16px 0' }}>Template Creator</h3>
+          <p style={{ margin: '16px 0' }}>Create a perfect template!</p>
 
           <div style={{ margin: '16px 0 32px 0' }}>
             <input
